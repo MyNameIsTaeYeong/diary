@@ -1,5 +1,6 @@
 import React from "react";
 import Day from "./Day";
+import "./Calendar.css";
 
 class Calendar extends React.Component {
   state = {};
@@ -25,8 +26,14 @@ class Calendar extends React.Component {
 
     this.rows = [];
     this.row = [];
-    for (let index = 1; index <= this.firstDay + this.lastDay; index++) {
-      if (index <= this.firstDay) {
+    if ((this.firstDay + this.lastDay) % 7 !== 0) {
+      this.loopCnt = ((this.firstDay + this.lastDay) / 7 + 1) * 7;
+    } else {
+      this.loopCnt = this.firstDay + this.lastDay;
+    }
+
+    for (let index = 1; index <= this.loopCnt; index++) {
+      if (index <= this.firstDay || index > this.firstDay + this.lastDay) {
         this.row.push({ id: index, date: 0 });
       } else {
         this.row.push({ id: index, date: index - this.firstDay });
@@ -37,19 +44,32 @@ class Calendar extends React.Component {
         this.row = [];
       }
     }
-    if (this.row.length !== 7) {
-      this.rows.push(this.row);
-    }
 
     return (
       <div>
-        {this.rows.map((row, index) => (
-          <div key={index} id={index}>
-            {row.map((day) => (
-              <Day key={day.id} date={day.date}></Day>
-            ))}
+        <div className="calendar">
+          <div className="calendar__row">
+            <div className="calendar__row--title">
+              {this.props.year + "년 " + (this.props.month + 1) + "월"}
+            </div>
           </div>
-        ))}
+          <div className="calendar__row">
+            <div>일</div>
+            <div>월</div>
+            <div>화</div>
+            <div>수</div>
+            <div>목</div>
+            <div>금</div>
+            <div>토</div>
+          </div>
+          {this.rows.map((row, index) => (
+            <div key={index} id={index} className="calendar__row">
+              {row.map((day) => (
+                <Day key={day.id} date={day.date}></Day>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

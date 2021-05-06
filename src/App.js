@@ -23,7 +23,6 @@ class App extends React.Component {
     return (
       <div>
         <Calendar year={2021} month={4} />
-        <button onClick={this.next}>a</button>
       </div>
     );
   }
