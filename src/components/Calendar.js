@@ -11,10 +11,13 @@ class Calendar extends React.Component {
     this.state = {
       year: new Date().getFullYear(),
       month: new Date().getMonth(),
+      modalCheck: Array.from({ length: 32 }, () => false),
     };
 
     this.next = this.next.bind(this);
     this.prev = this.prev.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   next() {
@@ -41,6 +44,24 @@ class Calendar extends React.Component {
         month: state.month - 1,
       }));
     }
+  }
+
+  openModal(e) {
+    this.setState({
+      modalCheck: Array.from({ length: 32 }, (v, index) => {
+        if (index === parseInt(e.target.id)) {
+          return true;
+        } else {
+          return false;
+        }
+      }),
+    });
+  }
+
+  closeModal() {
+    this.setState({
+      modalCheck: Array.from({ length: 32 }, () => false),
+    });
   }
 
   render() {
@@ -98,7 +119,13 @@ class Calendar extends React.Component {
           {this.rows.map((row, index) => (
             <div key={index} id={index} className="calendar__row">
               {row.map((day) => (
-                <Day key={day.id} date={day.date}></Day>
+                <Day
+                  openModal={this.openModal}
+                  closeModal={this.closeModal}
+                  modalCheck={this.state.modalCheck[day.date]}
+                  key={day.id}
+                  date={day.date}
+                />
               ))}
             </div>
           ))}
