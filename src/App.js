@@ -1,6 +1,9 @@
 import React from "react";
-import Calendar from "./components/Calendar";
+import { BrowserRouter, Route } from "react-router-dom";
+import Navigation from "./components/Navigation";
+import Calendar from "./routes/Calendar";
 import axios from "axios";
+import Today from "./routes/Today";
 
 class App extends React.Component {
   componentDidMount() {
@@ -23,7 +26,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Calendar />
+        <BrowserRouter>
+          <Navigation></Navigation>
+          <Route path="/calendar" component={Calendar}></Route>
+          <Route path="/today" component={Today}></Route>
+        </BrowserRouter>
       </div>
     );
   }
