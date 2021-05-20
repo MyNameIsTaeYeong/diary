@@ -1,6 +1,30 @@
 import React from "react";
 import Day from "../components/Day";
-import "./Calendar.css";
+import styled from "styled-components";
+
+const SCalendar = styled.div`
+  width: 100%;
+  height: 80vh;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 30%;
+`;
+
+const SCalendarRow = styled.div`
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+  & > div:first-child {
+    color: red;
+  }
+
+  & > div:last-child {
+    color: blue;
+  }
+`;
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -95,8 +119,8 @@ class Calendar extends React.Component {
 
     return (
       <div>
-        <div className="calendar">
-          <div className="calendar__row">
+        <SCalendar>
+          <SCalendarRow>
             <div>
               <button onClick={this.prev}>prev</button>
             </div>
@@ -106,8 +130,8 @@ class Calendar extends React.Component {
             <div>
               <button onClick={this.next}>next</button>
             </div>
-          </div>
-          <div className="calendar__row">
+          </SCalendarRow>
+          <SCalendarRow>
             <div>일</div>
             <div>월</div>
             <div>화</div>
@@ -115,9 +139,9 @@ class Calendar extends React.Component {
             <div>목</div>
             <div>금</div>
             <div>토</div>
-          </div>
+          </SCalendarRow>
           {this.rows.map((row, index) => (
-            <div key={index} id={index} className="calendar__row">
+            <SCalendarRow key={index} id={index}>
               {row.map((day) => (
                 <Day
                   openModal={this.openModal}
@@ -127,9 +151,9 @@ class Calendar extends React.Component {
                   date={day.date}
                 />
               ))}
-            </div>
+            </SCalendarRow>
           ))}
-        </div>
+        </SCalendar>
       </div>
     );
   }

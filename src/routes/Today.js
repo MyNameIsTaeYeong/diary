@@ -1,23 +1,47 @@
 import React from "react";
-import "./Today.css";
+import styled from "styled-components";
+
+const Container = styled.div`
+  width: 100%;
+  height: 80vh;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.8);
+  margin-top: 30%;
+  overflow-y: auto;
+  & > ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 0;
+    padding: 0;
+  }
+`;
+
+const Card = styled.div`
+  width: 230px;
+  height: 90px;
+  background-color: white;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 4px 10px 15px rgba(0, 0, 0, 0.4);
+`;
 
 class Today extends React.Component {
   render() {
     return (
-      <div className="container">
+      <Container>
         <ul>
-          <div className="card">기분</div>
-          <div className="card">수면</div>
-          <div className="card">슬픔</div>
-          <div className="card">집중력</div>
-          <div className="card">컨디션</div>
-          <div className="card">기분</div>
-          <div className="card">수면</div>
-          <div className="card">슬픔</div>
-          <div className="card">집중력</div>
-          <div className="card">컨디션</div>
+          <Card>기분</Card>
+          <Card>수면</Card>
+          <Card>슬픔</Card>
+          <Card>집중력</Card>
+          <Card>컨디션</Card>
+          <Card>기분</Card>
+          <Card>수면</Card>
+          <Card>슬픔</Card>
+          <Card>집중력</Card>
+          <Card>컨디션</Card>
         </ul>
-      </div>
+      </Container>
     );
   }
 }
