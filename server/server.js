@@ -1,8 +1,11 @@
+import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
+import "./db.js";
+import "./passport.js";
 
+dotenv.config();
 const app = express();
-const port = 3001;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,6 +24,6 @@ app.post("/text", (req, res) => {
   res.send(rtnData);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`listening at http://localhost:${process.env.PORT}`);
 });
