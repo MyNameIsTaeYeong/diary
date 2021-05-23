@@ -15,16 +15,16 @@ class App extends React.Component {
     this.state = {
       isLoggedIn: false,
     };
-    this.googleLogin = this.googleLogin.bind(this);
+    //this.googleLogin = this.googleLogin.bind(this);
     this.fetchTest = this.fetchTest.bind(this);
   }
   componentDidMount() {
     //this.fetchTest();
   }
 
-  googleLogin = () => {
-    fetch("api/auth/google").then((res) => console.log(res));
-  };
+  // googleLogin = async () => {
+  //   await axios.get("auth/google").then((res) => console.log(res));
+  // };
 
   fetchTest = async () => {
     const res = await axios({
@@ -53,7 +53,7 @@ class App extends React.Component {
     } else {
       return (
         <div>
-          <LoginForm googleLogin={this.googleLogin} />
+          <LoginForm googleLogin={this.fetchTest} />
         </div>
       );
     }
