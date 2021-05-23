@@ -1,0 +1,23 @@
+{
+  "name": "diary",
+  "version": "1.0.0",
+  "description": "스스로를 객관적으로 보도록 도와주는 앱",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MyNameIsTaeYeong/diary.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MyNameIsTaeYeong/diary/issues"
+  },
+  "homepage": "https://github.com/MyNameIsTaeYeong/diary#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

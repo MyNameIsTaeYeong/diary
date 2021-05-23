@@ -52,5 +52,7 @@ app.post("/text", (req, res) => {
 });
 
 app.listen(process.env.SERVERPORT, () => {
-  console.log(`listening at http://localhost:${process.env.SERVERPORT}`);
+  console.log(
+    `listening at http://localhost:${process.env.SERVERPORT}🧡🧡🧡🧡🧡`
+  );
 });
