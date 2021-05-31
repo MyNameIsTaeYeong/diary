@@ -8,7 +8,7 @@ import {
 const authRouter = express.Router();
 
 authRouter.get("/google", googleLogin);
-authRouter.get("/temp", tempLogin);
+authRouter.get("/templogin", tempLogin);
 authRouter.get("/join", tempJoin);
 
 export default authRouter;
