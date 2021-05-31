@@ -3,7 +3,15 @@ import Record from "../models/Record.js";
 
 export const googleLogin = (req, res) => {};
 
-export const tempLogin = (req, res) => {};
+export const tempLogin = async (req, res) => {
+  const email = "imtaebari@gmail.com";
+  try {
+    const user = await User.findOne({ email });
+    res.send(user);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const tempJoin = async (req, res) => {
   const dateObj = new Date();

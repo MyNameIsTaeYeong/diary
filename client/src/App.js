@@ -12,8 +12,21 @@ dotenv.config();
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    const dateObj = new Date();
+    const year = dateObj.getFullYear();
+    const month =
+      dateObj.getMonth() < 9
+        ? "0" + (dateObj.getMonth() + 1)
+        : dateObj.getMonth() + 1;
+    const date =
+      dateObj.getDate() < 9 ? "0" + dateObj.getDate() : dateObj.getDate();
+
+    const today = year + month + date;
+
     this.state = {
       isLoggedIn: false,
+      today,
     };
     this.googleLogin = this.googleLogin.bind(this);
     this.tempLogin = this.tempLogin.bind(this);
@@ -31,9 +44,14 @@ class App extends React.Component {
   };
 
   tempLogin = async () => {
-    const res = await axios.get("http://localhost:4002/auth/temp");
+    const res = await axios.get("http://localhost:4002/auth/templogin");
     const user = res.data;
-    console.log(user);
+    this.setState({
+      user,
+      isLoggedIn: true,
+    });
+    console.log(this.state.today);
+    console.log(this.state.user);
   };
 
   tempJoin = async () => {
@@ -51,8 +69,16 @@ class App extends React.Component {
         <div>
           <BrowserRouter>
             <Navigation />
+            <Route
+              path="/today"
+              render={() => (
+                <Today
+                  today={this.state.today}
+                  records={this.state.user.records}
+                />
+              )}
+            />
             <Route path="/calendar" component={Calendar} />
-            <Route path="/today" component={Today} />
           </BrowserRouter>
         </div>
       );
