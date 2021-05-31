@@ -2,9 +2,15 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  id: {
-    type: String,
-    default: "haha",
+  email: String,
+  records: {
+    type: Map,
+    of: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Record",
+      },
+    ],
   },
 });
 

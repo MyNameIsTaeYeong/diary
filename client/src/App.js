@@ -15,28 +15,34 @@ class App extends React.Component {
     this.state = {
       isLoggedIn: false,
     };
-    //this.googleLogin = this.googleLogin.bind(this);
-    this.fetchTest = this.fetchTest.bind(this);
+    this.googleLogin = this.googleLogin.bind(this);
+    this.tempLogin = this.tempLogin.bind(this);
+    this.tempJoin = this.tempJoin.bind(this);
   }
+
   componentDidMount() {
     //this.fetchTest();
   }
 
-  // googleLogin = async () => {
-  //   await axios.get("auth/google").then((res) => console.log(res));
-  // };
+  googleLogin = async () => {
+    const res = await axios.get("http://localhost:4002/auth/google");
+    const user = res.data;
+    console.log(user);
+  };
 
-  fetchTest = async () => {
-    const res = await axios({
-      method: "post",
-      url: "http://localhost:4002/text",
-      data: {
-        name: "hahahha",
-        content: "hohoho",
-      },
+  tempLogin = async () => {
+    const res = await axios.get("http://localhost:4002/auth/temp");
+    const user = res.data;
+    console.log(user);
+  };
+
+  tempJoin = async () => {
+    const res = await axios.get("http://localhost:4002/auth/join");
+    const user = res.data;
+    console.log(user);
+    this.setState({
+      isLoggedIn: true,
     });
-
-    console.log(res);
   };
 
   render() {
@@ -53,7 +59,11 @@ class App extends React.Component {
     } else {
       return (
         <div>
-          <LoginForm googleLogin={this.fetchTest} />
+          <LoginForm
+            googleLogin={this.googleLogin}
+            tempLogin={this.tempLogin}
+            tempJoin={this.tempJoin}
+          />
         </div>
       );
     }
