@@ -33,13 +33,6 @@ class Today extends React.Component {
           <Card>기분</Card>
           <Card>수면</Card>
           <Card>슬픔</Card>
-          <Card>집중력</Card>
-          <Card>컨디션</Card>
-          <Card>기분</Card>
-          <Card>수면</Card>
-          <Card>슬픔</Card>
-          <Card>집중력</Card>
-          <Card>컨디션</Card>
         </ul>
       </Container>
     );
