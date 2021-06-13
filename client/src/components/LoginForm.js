@@ -1,3 +1,5 @@
+import React from "react";
+
 function LoginForm({ googleLogin, tempLogin, tempJoin }) {
   return (
     <div>
