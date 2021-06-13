@@ -3,7 +3,10 @@ const { Schema } = mongoose;
 
 const RecordSchema = new Schema({
   name: String,
-  value: Number,
+  recordMap: {
+    type: Map,
+    of: Number,
+  },
 });
 
 const Model = mongoose.model("Record", RecordSchema);

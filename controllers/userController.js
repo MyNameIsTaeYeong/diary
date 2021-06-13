@@ -37,8 +37,10 @@ export const tempJoin = async (req, res) => {
     name: "기분",
   });
 
-  const records = new Map();
-  records.set(key, [record1, record2, record3]);
+  const records = [];
+  records.push(record1);
+  records.push(record2);
+  records.push(record3);
 
   const user = await User.create({
     email: "imtaebari@gmail.com",

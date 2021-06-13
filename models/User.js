@@ -3,15 +3,12 @@ const { Schema } = mongoose;
 
 const UserSchema = new Schema({
   email: String,
-  records: {
-    type: Map,
-    of: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Record",
-      },
-    ],
-  },
+  records: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Record",
+    },
+  ],
 });
 
 const Model = mongoose.model("User", UserSchema);
