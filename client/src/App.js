@@ -6,6 +6,8 @@ import Today from "./routes/Today";
 import LoginForm from "./components/LoginForm";
 import axios from "axios";
 import dotenv from "dotenv";
+import { connect } from "react-redux";
+import { add } from "./store";
 
 dotenv.config();
 
@@ -46,12 +48,15 @@ class App extends React.Component {
   tempLogin = async () => {
     const res = await axios.get("http://localhost:4002/auth/templogin");
     const user = res.data;
+    const records = user.records;
     this.setState({
       user,
       isLoggedIn: true,
     });
     console.log(this.state.today);
     console.log(this.state.user);
+
+    records.forEach((record) => this.props.addRecord(record));
   };
 
   tempJoin = async () => {
@@ -96,4 +101,10 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return {
+    addRecord: (record) => dispatch(add(record)),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(App);
