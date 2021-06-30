@@ -6,7 +6,7 @@ export const googleLogin = (req, res) => {};
 export const tempLogin = async (req, res) => {
   const email = "imtaebari@gmail.com";
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).populate("records");
     res.send(user);
   } catch (error) {
     console.log(error);
@@ -48,4 +48,10 @@ export const tempJoin = async (req, res) => {
   });
 
   res.send(user);
+};
+
+export const addRecord = async (req, res) => {
+  console.log(req.session);
+  console.log("jajaja");
+  res.end();
 };
