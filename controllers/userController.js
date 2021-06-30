@@ -49,3 +49,9 @@ export const tempJoin = async (req, res) => {
 
   res.send(user);
 };
+
+export const addRecord = async (req, res) => {
+  console.log(req.session);
+  console.log("jajaja");
+  res.end();
+};

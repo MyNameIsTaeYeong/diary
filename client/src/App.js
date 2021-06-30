@@ -5,11 +5,8 @@ import Calendar from "./routes/Calendar";
 import Today from "./routes/Today";
 import LoginForm from "./components/LoginForm";
 import axios from "axios";
-import dotenv from "dotenv";
 import { connect } from "react-redux";
 import { add } from "./store";
-
-dotenv.config();
 
 class App extends React.Component {
   constructor(props) {

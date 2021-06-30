@@ -1,5 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 const Container = styled.div`
   width: 100%;
@@ -13,6 +17,12 @@ const Container = styled.div`
     align-items: center;
     margin: 30px 0;
     padding: 0;
+
+    & > button {
+      font-size: large;
+      border: none;
+      background: none;
+    }
   }
 `;
 
@@ -26,17 +36,32 @@ const Card = styled.div`
 `;
 
 class Today extends React.Component {
+  addRecord = async () => {
+    const recordName = prompt("hello");
+    const res = await axios.post("http://localhost:4002/user/addRecord");
+    console.log(res);
+    if (res.status === 200) {
+    }
+  };
+
   render() {
     return (
       <Container>
         <ul>
-          <Card>기분</Card>
-          <Card>수면</Card>
-          <Card>슬픔</Card>
+          {this.props.records.map((record) => (
+            <Card key={record._id}>{record.name}</Card>
+          ))}
+          <button onClick={this.addRecord}>추가</button>
         </ul>
       </Container>
     );
   }
 }
 
-export default Today;
+function mapStateToProps(state) {
+  return {
+    records: state,
+  };
+}
+
+export default connect(mapStateToProps)(Today);
