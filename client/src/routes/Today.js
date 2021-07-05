@@ -36,14 +36,6 @@ const Card = styled.div`
 `;
 
 class Today extends React.Component {
-  addRecord = async () => {
-    const recordName = prompt("hello");
-    const res = await axios.post("http://localhost:4002/user/addRecord");
-    console.log(res);
-    if (res.status === 200) {
-    }
-  };
-
   render() {
     return (
       <Container>
@@ -51,7 +43,7 @@ class Today extends React.Component {
           {this.props.records.map((record) => (
             <Card key={record._id}>{record.name}</Card>
           ))}
-          <button onClick={this.addRecord}>추가</button>
+          <button onClick={this.props.createRecord}>추가</button>
         </ul>
       </Container>
     );
