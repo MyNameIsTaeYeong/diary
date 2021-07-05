@@ -50,8 +50,19 @@ export const tempJoin = async (req, res) => {
   res.send(user);
 };
 
-export const addRecord = async (req, res) => {
-  console.log(req.session);
-  console.log("jajaja");
-  res.end();
+export const createRecord = async (req, res) => {
+  const { userId, recordName } = req.body;
+  try {
+    const user = await User.findById(userId);
+    console.log(user);
+    const record = await Record.create({
+      name: recordName,
+    });
+
+    user.records.push(record);
+    user.save();
+    res.send({ user, record });
+  } catch (error) {
+    console.log(error);
+  }
 };

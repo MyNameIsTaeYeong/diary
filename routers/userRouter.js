@@ -1,9 +1,9 @@
 import express from "express";
 import passport from "passport";
-import { addRecord, googleLogin } from "../controllers/userController.js";
+import { createRecord, googleLogin } from "../controllers/userController.js";
 
 const userRouter = express.Router();
 
-userRouter.post("/addRecord", addRecord);
+userRouter.post("/addRecord", createRecord);
 
 export default userRouter;

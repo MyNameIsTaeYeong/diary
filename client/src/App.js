@@ -30,6 +30,7 @@ class App extends React.Component {
     this.googleLogin = this.googleLogin.bind(this);
     this.tempLogin = this.tempLogin.bind(this);
     this.tempJoin = this.tempJoin.bind(this);
+    this.createRecord = this.createRecord.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +66,22 @@ class App extends React.Component {
     });
   };
 
+  createRecord = async () => {
+    const recordName = prompt("hello");
+    const res = await axios.post("http://localhost:4002/user/addRecord", {
+      userId: this.state.user._id,
+      recordName,
+    });
+    const user = res.data.user;
+    const record = res.data.record;
+    if (res.status === 200) {
+      this.setState({
+        user,
+      });
+      this.props.addRecord(record);
+    }
+  };
+
   render() {
     if (this.state.isLoggedIn) {
       return (
@@ -75,8 +92,10 @@ class App extends React.Component {
               path="/today"
               render={() => (
                 <Today
+                  user={this.state.user}
                   today={this.state.today}
                   records={this.state.user.records}
+                  createRecord={this.createRecord}
                 />
               )}
             />
