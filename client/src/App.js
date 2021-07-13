@@ -6,7 +6,7 @@ import Today from "./routes/Today";
 import LoginForm from "./components/LoginForm";
 import axios from "axios";
 import { connect } from "react-redux";
-import { add } from "./store";
+import { addEmail, addId, addRecord } from "./store";
 
 class App extends React.Component {
   constructor(props) {
@@ -30,7 +30,6 @@ class App extends React.Component {
     this.googleLogin = this.googleLogin.bind(this);
     this.tempLogin = this.tempLogin.bind(this);
     this.tempJoin = this.tempJoin.bind(this);
-    this.createRecord = this.createRecord.bind(this);
   }
 
   componentDidMount() {
@@ -47,60 +46,40 @@ class App extends React.Component {
     const res = await axios.get("http://localhost:4002/auth/templogin");
     const user = res.data;
     const records = user.records;
-    this.setState({
-      user,
-      isLoggedIn: true,
-    });
-    console.log(this.state.today);
-    console.log(this.state.user);
+    if (res.status === 200) {
+      this.setState({
+        isLoggedIn: true,
+      });
+      this.props.addId(user._id);
+      this.props.addEmail(user.email);
+      records.forEach((record) => this.props.addRecord(record));
+    }
 
-    records.forEach((record) => this.props.addRecord(record));
+    console.log(this.state.today);
   };
 
   tempJoin = async () => {
     const res = await axios.get("http://localhost:4002/auth/join");
     const user = res.data;
     console.log(user);
-    this.setState({
-      user,
-      isLoggedIn: true,
-    });
-
-    user.records.forEach((record) => this.props.addRecord(record));
-  };
-
-  createRecord = async () => {
-    const recordName = prompt("hello");
-    const res = await axios.post("http://localhost:4002/user/addRecord", {
-      userId: this.state.user._id,
-      recordName,
-    });
-    const user = res.data.user;
-    const record = res.data.record;
     if (res.status === 200) {
       this.setState({
-        user,
+        isLoggedIn: true,
       });
-      this.props.addRecord(record);
+      this.props.addId(user._id);
+      this.props.addEmail(user.email);
+      user.records.forEach((record) => this.props.addRecord(record));
     }
   };
 
   render() {
+    console.log("App");
     if (this.state.isLoggedIn) {
       return (
         <div>
           <BrowserRouter>
             <Navigation />
-            <Route
-              path="/today"
-              render={() => (
-                <Today
-                  user={this.state.user}
-                  today={this.state.today}
-                  createRecord={this.createRecord}
-                />
-              )}
-            />
+            <Route path="/today" component={Today} />
             <Route path="/calendar" component={Calendar} />
           </BrowserRouter>
         </div>
@@ -121,8 +100,16 @@ class App extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addRecord: (record) => dispatch(add(record)),
+    addId: (id) => dispatch(addId(id)),
+    addEmail: (email) => dispatch(addEmail(email)),
+    addRecord: (record) => dispatch(addRecord(record)),
   };
 }
 
-export default connect(null, mapDispatchToProps)(App);
+function mapStateToProps(state) {
+  return {
+    user: state,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

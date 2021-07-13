@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import axios from "axios";
+import { addRecord } from "../store";
 
 axios.defaults.withCredentials = true;
 
@@ -50,12 +51,29 @@ const Card = styled.div`
 `;
 
 class Today extends React.Component {
+  constructor(props) {
+    super(props);
+    this.createRecord = this.createRecord.bind(this);
+  }
+
+  createRecord = async () => {
+    const recordName = prompt("hello");
+    const res = await axios.post("http://localhost:4002/user/addRecord", {
+      userId: this.props.user._id,
+      recordName,
+    });
+    const record = res.data.record;
+    if (res.status === 200) {
+      this.props.addRecord(record);
+    }
+  };
+
   render() {
-    console.log(this.props.records);
+    console.log(this.props.user);
     return (
       <Container>
         <ul>
-          {this.props.records.map((record) => (
+          {this.props.user.records.map((record) => (
             <Card key={record._id}>
               <div>{record.name}</div>
               <div>
@@ -65,17 +83,23 @@ class Today extends React.Component {
               </div>
             </Card>
           ))}
-          <button onClick={this.props.createRecord}>추가</button>
+          <button onClick={this.createRecord}>추가</button>
         </ul>
       </Container>
     );
   }
 }
 
-function mapStateToProps(state) {
+function mapDispatchToProps(dispatch) {
   return {
-    records: state,
+    addRecord: (record) => dispatch(addRecord(record)),
   };
 }
 
-export default connect(mapStateToProps)(Today);
+function mapStateToProps(state) {
+  return {
+    user: state,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Today);
