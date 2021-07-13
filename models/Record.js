@@ -3,10 +3,7 @@ const { Schema } = mongoose;
 
 const RecordSchema = new Schema({
   name: String,
-  recordMap: {
-    type: Map,
-    of: Number,
-  },
+  dateAndValue: { type: Map, of: Number },
 });
 
 const Model = mongoose.model("Record", RecordSchema);

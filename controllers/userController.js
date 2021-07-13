@@ -27,14 +27,17 @@ export const tempJoin = async (req, res) => {
 
   const record1 = await Record.create({
     name: "수면",
+    dateAndValue: new Map(),
   });
 
   const record2 = await Record.create({
     name: "집중력",
+    dateAndValue: new Map(),
   });
 
   const record3 = await Record.create({
     name: "기분",
+    dateAndValue: new Map(),
   });
 
   const records = [];
@@ -57,6 +60,7 @@ export const createRecord = async (req, res) => {
     console.log(user);
     const record = await Record.create({
       name: recordName,
+      dateAndValue: new Map(),
     });
 
     user.records.push(record);

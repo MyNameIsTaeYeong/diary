@@ -33,15 +33,37 @@ const Card = styled.div`
   margin-bottom: 30px;
   border-radius: 10px;
   box-shadow: 4px 10px 15px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  & > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    & button {
+      border: none;
+      background: none;
+      font-size: 15px;
+    }
+  }
 `;
 
 class Today extends React.Component {
   render() {
+    console.log(this.props.records);
     return (
       <Container>
         <ul>
           {this.props.records.map((record) => (
-            <Card key={record._id}>{record.name}</Card>
+            <Card key={record._id}>
+              <div>{record.name}</div>
+              <div>
+                <button>상</button>
+                <button>중</button>
+                <button>하</button>
+              </div>
+            </Card>
           ))}
           <button onClick={this.props.createRecord}>추가</button>
         </ul>
