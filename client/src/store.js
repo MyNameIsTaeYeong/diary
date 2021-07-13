@@ -1,15 +1,25 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-const records = createSlice({
-  name: "recordsReducer",
-  initialState: [],
+const user = createSlice({
+  name: "userReducer",
+  initialState: {
+    _id: "",
+    email: "",
+    records: [],
+  },
   reducers: {
-    add: (state, action) => {
-      state.push(action.payload);
+    addId: (state, action) => {
+      state._id = action.payload;
+    },
+    addEmail: (state, action) => {
+      state.email = action.payload;
+    },
+    addRecord: (state, action) => {
+      state.records.push(action.payload);
     },
   },
 });
 
-export const { add } = records.actions;
+export const { addId, addEmail, addRecord } = user.actions;
 
-export default configureStore({ reducer: records.reducer });
+export default configureStore({ reducer: user.reducer });
