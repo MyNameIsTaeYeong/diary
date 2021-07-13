@@ -6,7 +6,7 @@ import Today from "./routes/Today";
 import LoginForm from "./components/LoginForm";
 import axios from "axios";
 import { connect } from "react-redux";
-import { addEmail, addId, addRecord } from "./store";
+import { addCurrentDate, addEmail, addId, addRecord } from "./store";
 
 class App extends React.Component {
   constructor(props) {
@@ -23,9 +23,10 @@ class App extends React.Component {
 
     const today = year + month + date;
 
+    this.props.addCurrentDate(today);
+
     this.state = {
       isLoggedIn: false,
-      today,
     };
     this.googleLogin = this.googleLogin.bind(this);
     this.tempLogin = this.tempLogin.bind(this);
@@ -102,6 +103,7 @@ function mapDispatchToProps(dispatch) {
   return {
     addId: (id) => dispatch(addId(id)),
     addEmail: (email) => dispatch(addEmail(email)),
+    addCurrentDate: (today) => dispatch(addCurrentDate(today)),
     addRecord: (record) => dispatch(addRecord(record)),
   };
 }

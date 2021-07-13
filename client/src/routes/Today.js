@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import axios from "axios";
-import { addRecord } from "../store";
+import { addRecord, updateRecord } from "../store";
 
 axios.defaults.withCredentials = true;
 
@@ -54,17 +54,46 @@ class Today extends React.Component {
   constructor(props) {
     super(props);
     this.createRecord = this.createRecord.bind(this);
+    this.updateRecord = this.updateRecord.bind(this);
   }
 
   createRecord = async () => {
     const recordName = prompt("hello");
-    const res = await axios.post("http://localhost:4002/user/addRecord", {
-      userId: this.props.user._id,
-      recordName,
-    });
-    const record = res.data.record;
-    if (res.status === 200) {
-      this.props.addRecord(record);
+    try {
+      const res = await axios.post("http://localhost:4002/user/addRecord", {
+        userId: this.props.user._id,
+        recordName,
+      });
+      const record = res.data.record;
+      if (res.status === 200) {
+        this.props.addRecord(record);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  updateRecord = async (e) => {
+    const recordId = e.target.parentElement.parentElement.id;
+    const recordIndex =
+      e.target.parentElement.parentElement.getAttribute("name");
+
+    const recordValue = e.target.value;
+    try {
+      const res = await axios.post("http://localhost:4002/user/updateRecord", {
+        userId: this.props.user._id,
+        currentDate: this.props.user.currentDate,
+        recordId,
+        recordIndex,
+        recordValue,
+      });
+      const user = res.data;
+      // store 업데이트
+      if (res.status === 200) {
+        this.props.updateRecord(user.records);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -73,16 +102,79 @@ class Today extends React.Component {
     return (
       <Container>
         <ul>
-          {this.props.user.records.map((record) => (
-            <Card key={record._id}>
-              <div>{record.name}</div>
-              <div>
-                <button>상</button>
-                <button>중</button>
-                <button>하</button>
-              </div>
-            </Card>
-          ))}
+          {this.props.user.records.map((record, index) => {
+            if (record.dateAndValue[this.props.user.currentDate] === 1) {
+              return (
+                <Card key={record._id} id={record._id} name={index}>
+                  <div>{record.name}</div>
+                  <div>
+                    <button onClick={this.updateRecord} value="1" color="red">
+                      상상
+                    </button>
+                    <button onClick={this.updateRecord} value="0">
+                      중
+                    </button>
+                    <button onClick={this.updateRecord} value="-1">
+                      하
+                    </button>
+                  </div>
+                </Card>
+              );
+            } else if (record.dateAndValue[this.props.user.currentDate] === 0) {
+              return (
+                <Card key={record._id} id={record._id} name={index}>
+                  <div>{record.name}</div>
+                  <div>
+                    <button onClick={this.updateRecord} value="1">
+                      상
+                    </button>
+                    <button onClick={this.updateRecord} value="0">
+                      중중
+                    </button>
+                    <button onClick={this.updateRecord} value="-1">
+                      하
+                    </button>
+                  </div>
+                </Card>
+              );
+            } else if (
+              record.dateAndValue[this.props.user.currentDate] === -1
+            ) {
+              return (
+                <Card key={record._id} id={record._id} name={index}>
+                  <div>{record.name}</div>
+                  <div>
+                    <button onClick={this.updateRecord} value="1">
+                      상
+                    </button>
+                    <button onClick={this.updateRecord} value="0">
+                      중
+                    </button>
+                    <button onClick={this.updateRecord} value="-1">
+                      하하
+                    </button>
+                  </div>
+                </Card>
+              );
+            } else {
+              return (
+                <Card key={record._id} id={record._id} name={index}>
+                  <div>{record.name}</div>
+                  <div>
+                    <button onClick={this.updateRecord} value="1">
+                      상
+                    </button>
+                    <button onClick={this.updateRecord} value="0">
+                      중
+                    </button>
+                    <button onClick={this.updateRecord} value="-1">
+                      하
+                    </button>
+                  </div>
+                </Card>
+              );
+            }
+          })}
           <button onClick={this.createRecord}>추가</button>
         </ul>
       </Container>
@@ -93,6 +185,7 @@ class Today extends React.Component {
 function mapDispatchToProps(dispatch) {
   return {
     addRecord: (record) => dispatch(addRecord(record)),
+    updateRecord: (records) => dispatch(updateRecord(records)),
   };
 }
 
