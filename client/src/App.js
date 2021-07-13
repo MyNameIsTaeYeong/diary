@@ -62,8 +62,11 @@ class App extends React.Component {
     const user = res.data;
     console.log(user);
     this.setState({
+      user,
       isLoggedIn: true,
     });
+
+    user.records.forEach((record) => this.props.addRecord(record));
   };
 
   createRecord = async () => {
@@ -94,7 +97,6 @@ class App extends React.Component {
                 <Today
                   user={this.state.user}
                   today={this.state.today}
-                  records={this.state.user.records}
                   createRecord={this.createRecord}
                 />
               )}
