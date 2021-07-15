@@ -149,6 +149,7 @@ class Calendar extends React.Component {
                   modalCheck={this.state.modalCheck[day.date]}
                   key={day.id}
                   date={day.date}
+                  today={this.props.today}
                 />
               ))}
             </SCalendarRow>

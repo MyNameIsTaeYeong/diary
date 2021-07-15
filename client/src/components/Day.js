@@ -54,7 +54,17 @@ const CalendarRowDate = styled.div`
   align-items: center;
 `;
 
-function Day({ openModal, closeModal, modalCheck, date }) {
+const CalendarRowToday = styled.div`
+  width: 14%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  opacity: 0.3;
+`;
+
+function Day({ openModal, closeModal, modalCheck, date, today }) {
   return (
     <div>
       {modalCheck ? (
@@ -68,6 +78,10 @@ function Day({ openModal, closeModal, modalCheck, date }) {
             <footer></footer>
           </section>
         </Modal>
+      ) : date === parseInt(today[6] + today[7]) ? (
+        <CalendarRowToday id={date} onClick={openModal}>
+          {date}
+        </CalendarRowToday>
       ) : (
         <CalendarRowDate id={date} onClick={openModal}>
           {date === 0 ? " " : date}

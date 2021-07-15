@@ -27,6 +27,7 @@ class App extends React.Component {
 
     this.state = {
       isLoggedIn: false,
+      today,
     };
     this.googleLogin = this.googleLogin.bind(this);
     this.tempLogin = this.tempLogin.bind(this);
@@ -81,7 +82,10 @@ class App extends React.Component {
           <BrowserRouter>
             <Navigation />
             <Route path="/today" component={Today} />
-            <Route path="/calendar" component={Calendar} />
+            <Route
+              path="/calendar"
+              render={() => <Calendar today={this.state.today} />}
+            />
           </BrowserRouter>
         </div>
       );
