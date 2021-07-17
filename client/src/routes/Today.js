@@ -1,10 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import axios from "axios";
 import { addRecord, updateRecord } from "../store";
-
-axios.defaults.withCredentials = true;
+import { userApi } from "../api";
 
 const Container = styled.div`
   width: 100%;
@@ -60,10 +58,7 @@ class Today extends React.Component {
   createRecord = async () => {
     const recordName = prompt("hello");
     try {
-      const res = await axios.post("http://localhost:4002/user/addRecord", {
-        userId: this.props.user._id,
-        recordName,
-      });
+      const res = await userApi.addRecord(this.props.user._id, recordName);
       const record = res.data.record;
       if (res.status === 200) {
         this.props.addRecord(record);
@@ -80,13 +75,14 @@ class Today extends React.Component {
 
     const recordValue = e.target.value;
     try {
-      const res = await axios.post("http://localhost:4002/user/updateRecord", {
-        userId: this.props.user._id,
-        currentDate: this.props.user.currentDate,
+      const res = await userApi.updateRecord(
+        this.props.user._id,
+        this.props.user.currentDate,
         recordId,
         recordIndex,
-        recordValue,
-      });
+        recordValue
+      );
+
       const user = res.data;
       // store 업데이트
       if (res.status === 200) {

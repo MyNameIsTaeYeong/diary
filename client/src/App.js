@@ -4,9 +4,9 @@ import Navigation from "./components/Navigation";
 import Calendar from "./routes/Calendar";
 import Today from "./routes/Today";
 import LoginForm from "./components/LoginForm";
-import axios from "axios";
 import { connect } from "react-redux";
 import { addCurrentDate, addEmail, addId, addRecord } from "./store";
+import { authApi } from "./api";
 
 class App extends React.Component {
   constructor(props) {
@@ -39,13 +39,13 @@ class App extends React.Component {
   }
 
   googleLogin = async () => {
-    const res = await axios.get("http://localhost:4002/auth/google");
+    const res = await authApi.googleLogin();
     const user = res.data;
     console.log(user);
   };
 
   tempLogin = async () => {
-    const res = await axios.get("http://localhost:4002/auth/templogin");
+    const res = await authApi.tempLogin();
     const user = res.data;
     const records = user.records;
     if (res.status === 200) {
@@ -61,7 +61,7 @@ class App extends React.Component {
   };
 
   tempJoin = async () => {
-    const res = await axios.get("http://localhost:4002/auth/join");
+    const res = await authApi.tempJoin();
     const user = res.data;
     console.log(user);
     if (res.status === 200) {
